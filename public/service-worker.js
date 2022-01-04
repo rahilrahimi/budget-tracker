@@ -9,7 +9,9 @@ const FILES_TO_CACHE = [
     //the below give me an error or uncaught reference - addAll doesn't work
      "./css/styles.css",
      "./js/index.js",
-     "./js/idb.js"
+     "./js/idb.js",
+     "https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css",
+     "https://cdn.jsdelivr.net/npm/chart.js@2.8.0"
   ];
 
 //install service worker
@@ -49,24 +51,25 @@ self.addEventListener('activate', function(e) {
     console.log('fetch request : ' + e.request.url)
     e.respondWith(
         //source already in cache
-        caches.match(e.request).then(function (request) {
-            if (request) {
+        caches.match(e.request).then(function (response) {
+            if (response) {
               console.log('responding with cache : ' + e.request.url)
-              return request
-            } 
+              return response
+            } else return fetch (e.request)
           }),
-          //if resource is not in cache, retrieve it
-          caches.match(e.request).then(function (request) {
-            if (request) {
-              console.log('responding with cache : ' + e.request.url)
-              return request
-            } else {
-              console.log('file is not cached, fetching : ' + e.request.url)
-              return fetch(e.request)
-          }
+          )
+        })
+
+         // //if resource is not in cache, retrieve it
+          // caches.match(e.request).then(function (request) {
+          //   if (request) {
+          //     console.log('responding with cache : ' + e.request.url)
+          //     return request
+          //   } else {
+          //     console.log('file is not cached, fetching : ' + e.request.url)
+          //     return fetch(e.request)
+          // }
           
           // You can omit if/else for console.log & put one line below like this too.
           // return request || fetch(e.request)
-          })
-    )
-  })
+  

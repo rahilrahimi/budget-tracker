@@ -10,6 +10,7 @@ request.onupgradeneeded = function (event) {
   // create an object store (table) called `new_budget`, set it to have an auto incrementing primary key of sorts
   db.createObjectStore("new_budget", { autoIncrement: true });
 
+};
   // upon a successful
   request.onsuccess = function (event) {
     // when db is successfully created with its object store (from onupgradedneeded event above) or simply established a connection, save reference to db in global variable
@@ -25,8 +26,6 @@ request.onupgradeneeded = function (event) {
     // log error here
     console.log(event.target.errorCode);
   };
-};
-
 //WRITE DATA TO INDEXEDDB
 // This function will be executed if we attempt to submit a new budget and there's no internet connection
 function saveRecord(record) {
